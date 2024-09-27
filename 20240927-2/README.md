@@ -1,4 +1,4 @@
-63,300 board positions and their corresponding scores using games played by a turbostack prediction model.
+63,300 board positions and their corresponding final scores using games played by a turbostack prediction model.
 
 mean=16875 (±1.0%), stdev=6760, best=30858, n=6330
 
