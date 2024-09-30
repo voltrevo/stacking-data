@@ -1,22 +1,23 @@
-Scores from 859,000 games starting from 8,590 positions (played 100 times each).
+Scores from 1,295,900 games from 12,959 starting positions (played 100 times each).
 
 Data is grouped by position, includes the average final score for convenience, followed by each individual score.
 
-These games were played using the prediction model of turbostack at revision adc1d9e.
+These games were played using the prediction model of turbostack at revision 95c43f1.
 
 To generate each position:
-- The model was used to play a complete game using temperature 1.5
-  - This increases the diversity of positions, including more errors to help the model quantify the impact of errors
-- Then the larger of two `Math.random()` values was taken (in the range 0 to 1 but biased towards 1)
+- The model was used to play a complete game
+- Then the larger of three `Math.random()` values was taken (in the range 0 to 1 but biased towards 1)
 - This number was used to pick a position from the game biased towards the end of the game
   - Endgame positions are easier to learn because the reduced uncertainty results in the final score averages being closer to their true averages
   - This also increases the speed of data generation
+- One extra random move was played
+  - This reflects the type of positions the model will be asked to evaluate, since we always ask to evaluate all possible moves from a given position
 
-From each position, the game was then played 100 times using temperature 0 to obtain each final score sample.
+From each position, the game was then played 100 times to obtain each final score sample.
 
 With 100 games played per position, the uncertainty in the finalScore average is reduced by 10x. These uncertainties after the 10x reduction are often still substantial.
 
-Here are some stats from the first 5 positions:
+Here are some stats from the first 5 positions (from a previous similar dataset):
 
 | Mean  | Stdev | Est Mean Error | Est Mean Rel Error |
 |-------|-------|----------------|--------------------|
@@ -31,13 +32,3 @@ To clarify some meanings:
 - **Est Mean Rel Error**: The previous value expressed as a percentage of the reported mean
 
 Scores are all reported without level scaling. Multiply by 19 for the L18 score.
-
-## Minor Issue
-
-**(Fixed in next dataset)**
-
-Games end for two reasons - having no legal moves ('topping out') and running out of lines. Having few lines remaining would be a very strong signal for estimating the final score.
-
-Because of the intentional poor play used to generate positions, the number of lines cleared is typically low even though each position was taken towards the end of the game. This means the lines remaining is typically high, which is the opposite of what we want.
-
-In the next version of this dataset we should also randomize the total lines available (`linesClearedMax`) and bias towards zero.
