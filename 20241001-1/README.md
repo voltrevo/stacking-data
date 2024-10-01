@@ -6,7 +6,7 @@ These games were played using a combination of the score and prediction models o
 
 To generate each position:
 - The score model was used to play a complete game
-- The position half-way through the game was taken
+- A random position was taken from the game
 - Then the smaller of three `Math.random()` values was taken (in the range 0 to 1 but biased towards 0)
 - This number was used to pick a number of lines remaining in the range `[0,stdMaxLines)`
   - Endgame positions are easier to learn because the reduced uncertainty results in the final score averages being closer to their true averages
